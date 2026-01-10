@@ -390,13 +390,12 @@ export default function Home() {
           <div className="flex gap-3 mt-8">
             <button
               onClick={() => setPhase('phase1')}
-              className="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-6 rounded-lg transition"
+              className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition"
             >
               Back
             </button>
             <button
               onClick={handlePhase2}
-              disabled={!answers.priceRange || !answers.expectedSales || !answers.repeatBuy || !answers.competition}
               className="flex-1 bg-green-600 hover:bg-green-700 disabled:bg-slate-600 disabled:cursor-not-allowed text-white font-bold py-3 px-6 rounded-lg transition"
             >
               Get My Verdict →
