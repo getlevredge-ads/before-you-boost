@@ -552,13 +552,21 @@ export default function Home() {
               Start Over
             </button>
             <a
-              href="https://chat.whatsapp.com/YOUR_GROUP_LINK"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition text-center"
-            >
-              {result.nextButton}
-            </a>
+  href="https://paystack.shop/pay/before-you-boost-ads"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition text-center"
+>
+  Get Tracker Now ₦3500
+</a>
+<a
+  href="https://paystack.shop/pay/before-you-boost-ads-community"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition text-center"
+>
+  Join Community ₦2k/month
+</a>
           </div>
         </div>
       </div>
