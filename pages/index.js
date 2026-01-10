@@ -266,7 +266,7 @@ export default function Home() {
 
   // PHASE 2
   if (phase === 'phase2') {
-    const canProceed = answers.priceRange && answers.expectedSales && answers.repeatBuy && answers.competition;
+    const canProceed = !!(answers.priceRange && answers.expectedSales && answers.repeatBuy && answers.competition);
     
     return (
       <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 p-6">
