@@ -253,7 +253,7 @@ export default function Home() {
 
           <div className="flex gap-3 mt-8">
             <button onClick={() => setPhase('phase1')} className="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-6 rounded-lg">Back</button>
-            <button onClick={handlePhase2} className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg">Get My Verdict →</button>
+            <button onClick={() => { console.log('Button clicked'); handlePhase2(); }} className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg">Get My Verdict →</button>
           </div>
         </div>
       </div>
