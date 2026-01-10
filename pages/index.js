@@ -61,61 +61,76 @@ export default function Home() {
   };
 
   const handlePhase2 = () => {
-    const priceMap = { '500-2k': 1000, '2k-5k': 3500, '5k-15k': 8000, '15k+': 30000 };
-    const basePrice = priceMap[priceRange] || 3000;
-    const benchmarkCPS = basePrice * 0.2;
-    const budgetNum = parseInt(budget) || 0;
-    const expectedNum = parseInt(expectedSales) || 1;
-    const userCPS = budgetNum / expectedNum;
+  console.log('handlePhase2 started');
+  console.log('priceRange:', priceRange);
+  console.log('expectedSales:', expectedSales);
+  console.log('repeatBuy:', repeatBuy);
+  console.log('competition:', competition);
+  console.log('budget:', budget);
 
-    let flags = [];
-    let verdict = 'RUN';
+  const priceMap = { '500-2k': 1000, '2k-5k': 3500, '5k-15k': 8000, '15k+': 30000 };
+  const basePrice = priceMap[priceRange] || 3000;
+  const benchmarkCPS = basePrice * 0.2;
+  const budgetNum = parseInt(budget) || 0;
+  const expectedNum = parseInt(expectedSales) || 1;
+  const userCPS = budgetNum / expectedNum;
 
-    if (userCPS > benchmarkCPS * 1.5) {
-      flags.push(`Your expected CPS is ₦${Math.round(userCPS).toLocaleString()}, but ₦${Math.round(benchmarkCPS).toLocaleString()} is realistic.`);
-      verdict = 'RISKY';
-    }
+  console.log('basePrice:', basePrice);
+  console.log('benchmarkCPS:', benchmarkCPS);
+  console.log('userCPS:', userCPS);
 
-    if (competition === 'Hot' && budgetNum < 5000) {
-      flags.push('Crowded market + tight budget = need strong angle.');
-      verdict = 'RISKY';
-    }
+  let flags = [];
+  let verdict = 'RUN';
 
-    if (repeatBuy === 'one-time' && budgetNum < 3000) {
-      flags.push('One-time purchases need larger budgets.');
-      verdict = 'RISKY';
-    }
+  if (userCPS > benchmarkCPS * 1.5) {
+    flags.push(`Your expected CPS is ₦${Math.round(userCPS).toLocaleString()}, but ₦${Math.round(benchmarkCPS).toLocaleString()} is realistic.`);
+    verdict = 'RISKY';
+  }
 
-    if (verdict === 'RUN') {
-      setResult({
-        verdict: 'RUN',
-        title: '✅ You\'re Ad-Ready. Launch Within 7 Days.',
-        message: `Your offer has proof. Your funnel works. Your budget fits. Time to go.`,
-        benchmarks: { benchmarkCPS, userCPS, budgetNum, expectedNum },
-        dailyBudget: Math.round(budgetNum / 7),
-        action: '3-Step Launch Checklist',
-        steps: [
-          { num: 1, task: 'Set up your ad (Day 1)', detail: `Meta Ads Manager → Objective: "Messages" → Daily budget: ₦${Math.round(budgetNum / 7).toLocaleString()}` },
-          { num: 2, task: 'Monitor first 24 hours (Day 2)', detail: `Cost-per-message under ₦${Math.round(benchmarkCPS).toLocaleString()}? You're on track.` },
-          { num: 3, task: 'Close hard for 72 hours', detail: 'Reply within 2 hours. Track sales.' },
-        ],
-      });
-    } else {
-      setResult({
-        verdict: 'RISKY',
-        title: '⚠️ Risky — Fix One Thing First',
-        message: `You can run ads, but you'll likely overspend.`,
-        flags: flags,
-        action: 'Issues to Fix',
-        steps: flags.map((flag, idx) => ({
-          num: idx + 1,
-          task: flag,
-          detail: 'Adjust before launching.',
-        })),
-      });
-    }
-  };
+  if (competition === 'Hot' && budgetNum < 5000) {
+    flags.push('Crowded market + tight budget = need strong angle.');
+    verdict = 'RISKY';
+  }
 
+  if (repeatBuy === 'one-time' && budgetNum < 3000) {
+    flags.push('One-time purchases need larger budgets.');
+    verdict = 'RISKY';
+  }
+
+  console.log('verdict:', verdict);
+  console.log('flags:', flags);
+
+  if (verdict === 'RUN') {
+    console.log('Setting RUN result');
+    setResult({
+      verdict: 'RUN',
+      title: '✅ You\'re Ad-Ready. Launch Within 7 Days.',
+      message: `Your offer has proof. Your funnel works. Your budget fits. Time to go.`,
+      benchmarks: { benchmarkCPS, userCPS, budgetNum, expectedNum },
+      dailyBudget: Math.round(budgetNum / 7),
+      action: '3-Step Launch Checklist',
+      steps: [
+        { num: 1, task: 'Set up your ad (Day 1)', detail: `Meta Ads Manager → Objective: "Messages" → Daily budget: ₦${Math.round(budgetNum / 7).toLocaleString()}` },
+        { num: 2, task: 'Monitor first 24 hours (Day 2)', detail: `Cost-per-message under ₦${Math.round(benchmarkCPS).toLocaleString()}? You're on track.` },
+        { num: 3, task: 'Close hard for 72 hours', detail: 'Reply within 2 hours. Track sales.' },
+      ],
+    });
+  } else {
+    console.log('Setting RISKY result');
+    setResult({
+      verdict: 'RISKY',
+      title: '⚠️ Risky — Fix One Thing First',
+      message: `You can run ads, but you'll likely overspend.`,
+      flags: flags,
+      action: 'Issues to Fix',
+      steps: flags.map((flag, idx) => ({
+        num: idx + 1,
+        task: flag,
+        detail: 'Adjust before launching.',
+      })),
+    });
+  }
+};
   // INTRO
   if (phase === 'intro') {
     return (
