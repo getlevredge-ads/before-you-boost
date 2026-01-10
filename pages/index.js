@@ -552,20 +552,20 @@ export default function Home() {
               Start Over
             </button>
             <a
-  href="https://paystack.shop/pay/before-you-boost-ads"
+  href="https://paystack.shop/pay/beforeyouboost-lifetime"
   target="_blank"
   rel="noopener noreferrer"
   className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition text-center"
 >
-  Get Tracker Now ₦3500
+  Lifetime Access ₦3500
 </a>
 <a
-  href="https://paystack.shop/pay/before-you-boost-ads-community"
+  href="https://paystack.shop/pay/beforeyouboost-community"
   target="_blank"
   rel="noopener noreferrer"
   className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition text-center"
 >
-  Join Community ₦2k/month
+  Community Membership ₦2k/month
 </a>
           </div>
         </div>
