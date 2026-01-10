@@ -39,22 +39,14 @@ export default function Home() {
       setResult({
         verdict: 'STOP',
         title: 'Your Closing System Isn\'t Ready',
-        message: 'If someone messages you excited about your product, can you actually close them? Right now, the answer is unclear.',
+        message: 'If someone messages you excited about your product, can you actually close them?',
         action: 'Set Up WhatsApp (Free, 30 mins)',
         steps: [
           { num: 1, task: 'Download WhatsApp Business', detail: 'Free app on Android/iPhone. Takes 5 minutes.' },
-          { num: 2, task: 'Set up 3 auto-replies', detail: '"Thanks for your interest. What would you like to know?" + product details + payment method.' },
+          { num: 2, task: 'Set up 3 auto-replies', detail: 'Thanks + product details + payment method.' },
           { num: 3, task: 'Assign someone to reply within 2 hours', detail: 'This is your closer. They need to be fast.' },
           { num: 4, task: 'Come back here', detail: 'Once set up, run the tracker again.' },
         ],
-        templates: {
-          title: 'Quick WhatsApp Auto-Replies to Copy',
-          items: [
-            { trigger: 'First message', reply: 'Thanks for reaching out! 👋 I\'m [Your Name]. What would you like to know about [Product]?' },
-            { trigger: 'Price question', reply: '[Product] is ₦[PRICE]. It includes [main benefit]. We have [X] customers. Happy to answer more questions.' },
-            { trigger: 'How to buy', reply: 'Simple: 1️⃣ Confirm you want it 2️⃣ Send ₦[PRICE] to [payment method] 3️⃣ We send it [same day/next day]. Want to proceed?' },
-          ],
-        },
         nextButton: 'Setup Complete',
       });
       return;
@@ -99,7 +91,7 @@ export default function Home() {
     if (userCPS > benchmarkCPS * 1.5) {
       flags.push({
         type: 'budget',
-        message: `Your expected CPS is ₦${Math.round(userCPS).toLocaleString()}, but ₦${Math.round(benchmarkCPS).toLocaleString()} is realistic for your price point. Expectations may be too high.`,
+        message: `Your expected CPS is ₦${Math.round(userCPS).toLocaleString()}, but ₦${Math.round(benchmarkCPS).toLocaleString()} is realistic for your price point.`,
       });
       verdict = 'RISKY';
     }
@@ -107,7 +99,7 @@ export default function Home() {
     if (answers.competition === 'Hot' && budget < 5000) {
       flags.push({
         type: 'market',
-        message: 'You\'re in a crowded market (hot competition) with a tight budget. You\'ll need a strong unique angle to stand out.',
+        message: 'You\'re in a crowded market with a tight budget. You\'ll need a strong unique angle to stand out.',
       });
       verdict = 'RISKY';
     }
@@ -115,7 +107,7 @@ export default function Home() {
     if (answers.repeatBuy === 'one-time' && budget < 3000) {
       flags.push({
         type: 'model',
-        message: 'One-time purchases need larger budgets to break even. Consider selling to existing customers first (repeat sales).',
+        message: 'One-time purchases need larger budgets to break even. Consider selling to existing customers first.',
       });
       verdict = 'RISKY';
     }
@@ -129,40 +121,23 @@ export default function Home() {
         dailyBudget: Math.round(budget / 7),
         action: '3-Step Launch Checklist',
         steps: [
-          { num: 1, task: 'Set up your ad (Day 1)', detail: `Go to Meta Ads Manager → Objective: "Messages" → Audience: [City + interest] → Daily budget: ₦${Math.round(budget / 7).toLocaleString()} → Image + headline (use template below)` },
-          { num: 2, task: 'Monitor first 24 hours (Day 2)', detail: `Record impressions & messages. If cost-per-message is under ₦${Math.round(benchmarkCPS).toLocaleString()}, you're on track. If higher, pause and rewrite headline.` },
-          { num: 3, task: 'Close hard for 72 hours (Day 3–4)', detail: 'Your closer must reply within 2 hours. Use the WhatsApp script below. Track how many become sales.' },
+          { num: 1, task: 'Set up your ad (Day 1)', detail: `Meta Ads Manager → Objective: "Messages" → Daily budget: ₦${Math.round(budget / 7).toLocaleString()}` },
+          { num: 2, task: 'Monitor first 24 hours (Day 2)', detail: `Record impressions & messages. Cost-per-message under ₦${Math.round(benchmarkCPS).toLocaleString()}? You're on track.` },
+          { num: 3, task: 'Close hard for 72 hours (Day 3–4)', detail: 'Reply within 2 hours. Use WhatsApp script below. Track sales.' },
         ],
-        templates: {
-          title: 'Ad Copy & WhatsApp Script (Copy These)',
-          items: [
-            { type: 'headline', label: 'Facebook Headline', content: `Get [Main Benefit] in [Time Frame] → ₦${answers.priceRange}` },
-            { type: 'whatsapp', label: 'WhatsApp Opener', content: 'Hey! 👋 Thanks for your interest in [Product]. Quick question: what drew you here?' },
-            { type: 'whatsapp', label: 'Objection: "How do I know it works?"', content: 'Great question. [Insert one social proof: # of customers / result they got / comparison to alternative]. Also, [insert guarantee or trial offer].' },
-            { type: 'whatsapp', label: 'Close', content: 'I can get this to you [same day/next day]. Send ₦[PRICE] to [payment method] and we\'re locked in. Yes?' },
-          ],
-        },
-        monitoring: {
-          title: '72-Hour Monitoring Checklist',
-          items: [
-            { time: '24h', check: `Cost per message < ₦${Math.round(benchmarkCPS).toLocaleString()}?`, action: 'Yes → keep running. No → pause, rewrite headline.' },
-            { time: '48h', check: 'Have you gotten at least 3 messages?', action: 'Yes → on track. No → audience might be too narrow. Expand.' },
-            { time: '72h', check: 'How many became sales?', action: 'More than expected? Scale budget 20%. Less? Improve script.' },
-          ],
-        },
         nextButton: 'Launch Today',
       });
     } else {
       setResult({
         verdict: 'RISKY',
         title: '⚠️ Risky — Fix One Thing First',
-        message: `You can run ads, but you'll likely overspend. Fix this first:`,
+        message: `You can run ads, but you'll likely overspend.`,
         flags: flags,
         action: 'Your Priority Fix',
         steps: flags.map((flag, idx) => ({
           num: idx + 1,
           task: flag.message,
-          detail: flag.type === 'budget' ? 'Lower your expected sales target or increase budget.' : flag.type === 'market' ? 'Rewrite your ad with a unique angle (e.g., "Not like [competitor]")' : 'Sell to 5 existing customers first to prove model before spending on cold ads.',
+          detail: 'Adjust your strategy before launching.',
         })),
         nextButton: 'Fixed — Run Again',
       });
@@ -184,17 +159,6 @@ export default function Home() {
           >
             Start 90-Second Check →
           </button>
-
-          <div className="mt-8 pt-8 border-t border-slate-700">
-            <h2 className="text-white font-bold mb-4">What You'll Get</h2>
-            <ul className="text-slate-300 space-y-2 text-sm">
-              <li>✅ Clear verdict: Run / Risky / Don't Run</li>
-              <li>✅ Realistic cost-per-sale for your product</li>
-              <li>✅ Step-by-step launch checklist</li>
-              <li>✅ Copy-paste WhatsApp & ad templates</li>
-              <li>✅ 72-hour monitoring plan</li>
-            </ul>
-          </div>
         </div>
       </div>
     );
@@ -207,12 +171,12 @@ export default function Home() {
         <div className="max-w-2xl mx-auto">
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-white mb-2">Phase 1: Do You Pass?</h2>
-            <p className="text-slate-400 text-sm">3 knockout questions. If you fail any, we stop here (and tell you what to fix).</p>
+            <p className="text-slate-400 text-sm">3 knockout questions.</p>
           </div>
 
           <div className="space-y-6 bg-slate-800 border border-slate-700 rounded-lg p-8">
             {/* Q1 */}
-            <div className="border-b border-slate-700 pb-6 last:border-b-0">
+            <div className="border-b border-slate-700 pb-6">
               <label className="block text-white font-semibold mb-4">
                 Have you sold this product/service organically (WhatsApp, DM, in-person) in the last 90 days?
               </label>
@@ -223,6 +187,7 @@ export default function Home() {
                       type="radio"
                       name="organicSales"
                       value={opt}
+                      checked={answers.organicSales === opt}
                       onChange={(e) => updateAnswer('organicSales', e.target.value)}
                       className="mr-3 w-4 h-4"
                     />
@@ -245,6 +210,7 @@ export default function Home() {
                         type="radio"
                         name="closingMethod"
                         value={opt}
+                        checked={answers.closingMethod === opt}
                         onChange={(e) => updateAnswer('closingMethod', e.target.value)}
                         className="mr-3 w-4 h-4"
                       />
@@ -287,7 +253,7 @@ export default function Home() {
             </button>
             <button
               onClick={handlePhase1}
-              disabled={!answers.organicSales}
+              disabled={!answers.organicSales || (answers.organicSales === 'yes' && !answers.closingMethod)}
               className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-600 disabled:cursor-not-allowed text-white font-bold py-3 px-6 rounded-lg transition"
             >
               Next →
@@ -299,7 +265,7 @@ export default function Home() {
   }
 
   // PHASE 2
-    if (phase === 'phase2') {
+  if (phase === 'phase2') {
     const canProceed = answers.priceRange && answers.expectedSales && answers.repeatBuy && answers.competition;
     
     return (
@@ -415,12 +381,12 @@ export default function Home() {
       </div>
     );
   }
+
   // RESULTS
   if (result) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 p-6">
         <div className="max-w-3xl mx-auto">
-          {/* Header */}
           <div className={`mb-8 p-8 rounded-lg border-2 ${
             result.verdict === 'RUN' ? 'bg-green-950 border-green-600' :
             result.verdict === 'RISKY' ? 'bg-yellow-950 border-yellow-600' :
@@ -439,7 +405,6 @@ export default function Home() {
             <p className="text-slate-300">{result.message}</p>
           </div>
 
-          {/* Benchmarks */}
           {result.benchmarks && (
             <div className="grid grid-cols-2 gap-4 mb-8">
               <div className="bg-slate-800 border border-slate-700 rounded-lg p-4">
@@ -463,31 +428,26 @@ export default function Home() {
             </div>
           )}
 
-          {/* Flags */}
           {result.flags && result.flags.length > 0 && (
             <div className="bg-yellow-950 border border-yellow-600 rounded-lg p-6 mb-8">
               <h3 className="text-yellow-300 font-bold mb-4">⚠️ Issues to Fix:</h3>
               <ul className="space-y-2">
                 {result.flags.map((flag, idx) => (
-                  <li key={idx} className="text-yellow-200 flex gap-2">
-                    <span className="font-bold">{idx + 1}.</span>
-                    <span>{flag.message}</span>
+                  <li key={idx} className="text-yellow-200">
+                    <span className="font-bold">{idx + 1}.</span> {flag.message}
                   </li>
                 ))}
               </ul>
             </div>
           )}
 
-          {/* Action Plan */}
           <div className="bg-slate-800 border border-slate-700 rounded-lg p-8 mb-8">
             <h3 className="text-white font-bold text-lg mb-6">{result.action}</h3>
             <div className="space-y-4">
               {result.steps.map((step) => (
                 <div key={step.num} className="flex gap-4">
-                  <div className="flex-shrink-0">
-                    <div className="flex items-center justify-center h-8 w-8 rounded-full bg-blue-600 text-white font-bold">
-                      {step.num}
-                    </div>
+                  <div className="flex items-center justify-center h-8 w-8 rounded-full bg-blue-600 text-white font-bold flex-shrink-0">
+                    {step.num}
                   </div>
                   <div className="flex-1">
                     <p className="text-white font-semibold">{step.task}</p>
@@ -498,48 +458,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Templates */}
-          {result.templates && (
-            <div className="bg-slate-800 border border-slate-700 rounded-lg p-8 mb-8">
-              <h3 className="text-white font-bold text-lg mb-6">{result.templates.title}</h3>
-              <div className="space-y-4">
-                {result.templates.items.map((item, idx) => (
-                  <div key={idx} className="bg-slate-900 rounded-lg p-4 border border-slate-600">
-                    <p className="text-slate-400 text-xs font-semibold mb-2">{item.trigger || item.label}</p>
-                    <p className="text-white font-mono text-sm bg-slate-950 p-3 rounded border border-slate-700 overflow-auto">
-                      {item.reply || item.content}
-                    </p>
-                    <button
-                      onClick={() => navigator.clipboard.writeText(item.reply || item.content)}
-                      className="text-blue-400 text-xs mt-2 hover:text-blue-300"
-                    >
-                      Copy →
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Monitoring */}
-          {result.monitoring && (
-            <div className="bg-slate-800 border border-slate-700 rounded-lg p-8 mb-8">
-              <h3 className="text-white font-bold text-lg mb-6">{result.monitoring.title}</h3>
-              <div className="space-y-3">
-                {result.monitoring.items.map((item, idx) => (
-                  <div key={idx} className="flex justify-between items-start p-3 bg-slate-900 rounded-lg border border-slate-600">
-                    <div>
-                      <p className="text-white font-semibold">{item.time}</p>
-                      <p className="text-slate-400 text-sm">{item.check}</p>
-                    </div>
-                    <p className="text-slate-300 text-sm text-right">{item.action}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* CTA */}
           <div className="flex gap-3">
             <button
               onClick={() => {
@@ -560,21 +478,13 @@ export default function Home() {
               Start Over
             </button>
             <a
-  href="https://paystack.shop/pay/beforeyouboost-lifetime"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition text-center"
->
-  Lifetime Access ₦3500
-</a>
-<a
-  href="https://paystack.shop/pay/beforeyouboost-community"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition text-center"
->
-  Community Membership ₦2k/month
-</a>
+              href="https://paystack.com/pay/beforeyouboost"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition text-center"
+            >
+              {result.nextButton}
+            </a>
           </div>
         </div>
       </div>
