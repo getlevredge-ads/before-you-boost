@@ -276,78 +276,45 @@ export default function Home() {
   }
 
   // RESULTS
-  if (result) {
+ if (result) {
+    console.log('Rendering result page with verdict:', result.verdict);
     return (
       <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 p-6">
         <div className="max-w-3xl mx-auto">
-          <div className={`mb-8 p-8 rounded-lg border-2 ${
-            result.verdict === 'RUN' ? 'bg-green-950 border-green-600' :
-            result.verdict === 'RISKY' ? 'bg-yellow-950 border-yellow-600' :
-            'bg-red-950 border-red-600'
-          }`}>
-            <div className="flex items-center gap-4 mb-4">
-              {result.verdict === 'RUN' && <CheckCircle className="w-12 h-12 text-green-400" />}
-              {result.verdict === 'RISKY' && <AlertCircle className="w-12 h-12 text-yellow-400" />}
-              {result.verdict === 'STOP' && <XCircle className="w-12 h-12 text-red-400" />}
-              <h1 className={`text-3xl font-bold ${
-                result.verdict === 'RUN' ? 'text-green-300' :
-                result.verdict === 'RISKY' ? 'text-yellow-300' :
-                'text-red-300'
-              }`}>{result.title}</h1>
-            </div>
-            <p className="text-slate-300">{result.message}</p>
-          </div>
+          <h1 className="text-3xl font-bold text-white mb-8">{result.title}</h1>
+          <p className="text-white mb-8">{result.message}</p>
 
           {result.benchmarks && (
-            <div className="grid grid-cols-2 gap-4 mb-8">
-              <div className="bg-slate-800 border border-slate-700 rounded-lg p-4">
-                <p className="text-slate-400 text-sm">Realistic CPS</p>
-                <p className="text-2xl font-bold text-green-400">₦{Math.round(result.benchmarks.benchmarkCPS).toLocaleString()}</p>
-              </div>
-              <div className="bg-slate-800 border border-slate-700 rounded-lg p-4">
-                <p className="text-slate-400 text-sm">Your Expected CPS</p>
-                <p className="text-2xl font-bold text-blue-400">₦{Math.round(result.benchmarks.userCPS).toLocaleString()}</p>
-              </div>
-              <div className="bg-slate-800 border border-slate-700 rounded-lg p-4">
-                <p className="text-slate-400 text-sm">Daily Budget</p>
-                <p className="text-2xl font-bold text-blue-400">₦{result.dailyBudget.toLocaleString()}</p>
-              </div>
-              <div className="bg-slate-800 border border-slate-700 rounded-lg p-4">
-                <p className="text-slate-400 text-sm">Duration</p>
-                <p className="text-2xl font-bold text-blue-400">7 days</p>
-              </div>
+            <div className="bg-slate-800 border border-slate-700 rounded-lg p-6 mb-8">
+              <h2 className="text-white font-bold mb-4">Your Numbers</h2>
+              <p className="text-slate-300">Realistic CPS: ₦{Math.round(result.benchmarks.benchmarkCPS).toLocaleString()}</p>
+              <p className="text-slate-300">Your Expected CPS: ₦{Math.round(result.benchmarks.userCPS).toLocaleString()}</p>
+              <p className="text-slate-300">Daily Budget: ₦{result.dailyBudget.toLocaleString()}</p>
             </div>
           )}
 
           {result.flags && result.flags.length > 0 && (
-            <div className="bg-yellow-950 border border-yellow-600 rounded-lg p-6 mb-8">
-              <h3 className="text-yellow-300 font-bold mb-4">⚠️ Fix These:</h3>
-              <ul className="space-y-2">
-                {result.flags.map((flag, idx) => (
-                  <li key={idx} className="text-yellow-200"><span className="font-bold">{idx + 1}.</span> {flag}</li>
-                ))}
-              </ul>
+            <div className="bg-yellow-900 border border-yellow-600 rounded-lg p-6 mb-8">
+              <h2 className="text-white font-bold mb-4">Issues to Fix</h2>
+              {result.flags.map((flag, idx) => (
+                <p key={idx} className="text-yellow-200 mb-2">{idx + 1}. {flag}</p>
+              ))}
             </div>
           )}
 
-          <div className="bg-slate-800 border border-slate-700 rounded-lg p-8 mb-8">
-            <h3 className="text-white font-bold text-lg mb-6">{result.action}</h3>
-            <div className="space-y-4">
-              {result.steps.map((step) => (
-                <div key={step.num} className="flex gap-4">
-                  <div className="flex items-center justify-center h-8 w-8 rounded-full bg-blue-600 text-white font-bold flex-shrink-0">{step.num}</div>
-                  <div>
-                    <p className="text-white font-semibold">{step.task}</p>
-                    <p className="text-slate-400 text-sm">{step.detail}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+          <div className="bg-slate-800 border border-slate-700 rounded-lg p-6 mb-8">
+            <h2 className="text-white font-bold mb-4">{result.action}</h2>
+            {result.steps.map((step) => (
+              <div key={step.num} className="mb-4">
+                <p className="text-white font-bold">{step.num}. {step.task}</p>
+                <p className="text-slate-300">{step.detail}</p>
+              </div>
+            ))}
           </div>
 
           <div className="flex gap-3">
             <button onClick={() => { setPhase('intro'); setOrganicSales(''); setClosingMethod(''); setBudget(''); setPriceRange(''); setExpectedSales(''); setRepeatBuy(''); setCompetition(''); setResult(null); }} className="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-6 rounded-lg">Start Over</button>
-            <a href="https://paystack.com/pay/beforeyouboost" target="_blank" rel="noopener noreferrer" className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg text-center">Get Access Now</a>
+            <a href="https://paystack.com/pay/beforeyouboost" target="_blank" rel="noopener noreferrer" className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg text-center">Get Lifetime Access ₦3.5k</a>
           </div>
         </div>
       </div>
