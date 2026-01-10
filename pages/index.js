@@ -299,7 +299,9 @@ export default function Home() {
   }
 
   // PHASE 2
-  if (phase === 'phase2') {
+    if (phase === 'phase2') {
+    const canProceed = answers.priceRange && answers.expectedSales && answers.repeatBuy && answers.competition;
+    
     return (
       <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 p-6">
         <div className="max-w-2xl mx-auto">
@@ -319,6 +321,7 @@ export default function Home() {
                       type="radio"
                       name="priceRange"
                       value={opt}
+                      checked={answers.priceRange === opt}
                       onChange={(e) => updateAnswer('priceRange', e.target.value)}
                       className="mr-3 w-4 h-4"
                     />
@@ -352,6 +355,7 @@ export default function Home() {
                       type="radio"
                       name="repeatBuy"
                       value={opt}
+                      checked={answers.repeatBuy === opt}
                       onChange={(e) => updateAnswer('repeatBuy', e.target.value)}
                       className="mr-3 w-4 h-4"
                     />
@@ -373,6 +377,7 @@ export default function Home() {
                       type="radio"
                       name="competition"
                       value={opt}
+                      checked={answers.competition === opt}
                       onChange={(e) => updateAnswer('competition', e.target.value)}
                       className="mr-3 w-4 h-4"
                     />
@@ -390,13 +395,18 @@ export default function Home() {
           <div className="flex gap-3 mt-8">
             <button
               onClick={() => setPhase('phase1')}
-              className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition"
+              className="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-6 rounded-lg transition"
             >
               Back
             </button>
             <button
               onClick={handlePhase2}
-              className="flex-1 bg-green-600 hover:bg-green-700 disabled:bg-slate-600 disabled:cursor-not-allowed text-white font-bold py-3 px-6 rounded-lg transition"
+              disabled={!canProceed}
+              className={`flex-1 font-bold py-3 px-6 rounded-lg transition text-white ${
+                canProceed 
+                  ? 'bg-green-600 hover:bg-green-700 cursor-pointer' 
+                  : 'bg-slate-600 cursor-not-allowed opacity-50'
+              }`}
             >
               Get My Verdict →
             </button>
@@ -405,7 +415,6 @@ export default function Home() {
       </div>
     );
   }
-
   // RESULTS
   if (result) {
     return (
