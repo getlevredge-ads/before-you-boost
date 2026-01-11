@@ -8,7 +8,7 @@ export default function Home() {
   const [competition, setCompetition] = useState('');
   const [result, setResult] = useState(null);
 
-  const handleVer dict = () => {
+  const handleVerdict = () => {
     const priceMap = { '500-2k': 1000, '2k-5k': 3500, '5k-15k': 8000, '15k+': 30000 };
     const bp = priceMap[priceRange] || 3000;
     const cps = bp * 0.2;
