@@ -94,9 +94,9 @@ export default function Home() {
         benchmarks: { benchmarkCPS, userCPS },
         dailyBudget: Math.round(budgetNum / 7),
         steps: [
-          { num: 1, task: 'Set up ad (Day 1)', detail: `Meta Ads → Messages objective → ₦${Math.round(budgetNum / 7)}/day` },
-          { num: 2, task: 'Monitor 24h (Day 2)', detail: `Cost per message under ₦${Math.round(benchmarkCPS)}?` },
-          { num: 3, task: 'Close hard (Days 3-4)', detail: 'Reply within 2 hours, track sales' },
+          { num: 1, task: 'Day 1: Create Your Ad', detail: `Open Facebook Ads Manager → Click "Create" → Choose objective "Messages" → Set audience (your city) → Upload image + headline → Set daily spend: ₦${Math.round(budgetNum / 7).toLocaleString()}` },
+          { num: 2, task: 'Day 2: Check First Results', detail: `Open your ad → Check "Cost Per Message" (how much you paid for each person who messaged). If under ₦${Math.round(benchmarkCPS).toLocaleString()}, you're on track. If higher, pause ad and change your headline.` },
+          { num: 3, task: 'Days 3-4: Close Your Sales', detail: 'When people message you, reply FAST (within 30 mins). Use WhatsApp to close the sale. Count how many people bought. If most are buying, increase budget. If few are buying, your WhatsApp script needs work.' },
         ],
       });
     } else {
@@ -139,9 +139,15 @@ export default function Home() {
 
           {result.benchmarks && (
             <div style={{ marginBottom: '20px', padding: '15px', backgroundColor: '#0f172a', borderRadius: '6px' }}>
-              <p style={styles.p}>📊 Realistic CPS: <strong>₦{Math.round(result.benchmarks.benchmarkCPS).toLocaleString()}</strong></p>
-              <p style={styles.p}>📊 Your Expected CPS: <strong>₦{Math.round(result.benchmarks.userCPS).toLocaleString()}</strong></p>
-              <p style={styles.p}>💰 Daily Budget: <strong>₦{result.dailyBudget.toLocaleString()}</strong></p>
+              <p style={styles.p}>💰 <strong>Cost Per Sale (how much you'll spend to get 1 customer)</strong></p>
+              <p style={styles.p}>✅ You should spend: <strong>₦{Math.round(result.benchmarks.benchmarkCPS).toLocaleString()} per customer</strong></p>
+              <p style={styles.p}>📊 You're planning: <strong>₦{Math.round(result.benchmarks.userCPS).toLocaleString()} per customer</strong></p>
+              {result.benchmarks.userCPS <= result.benchmarks.benchmarkCPS * 1.2 ? (
+                <p style={{ ...styles.p, color: '#10b981' }}>✅ GOOD - Your plan is realistic</p>
+              ) : (
+                <p style={{ ...styles.p, color: '#f87171' }}>⚠️ WARNING - You're expecting too many sales for your budget</p>
+              )}
+              <p style={styles.p}>💵 <strong>Daily Budget: ₦{result.dailyBudget.toLocaleString()} per day for 7 days</strong></p>
             </div>
           )}
 
