@@ -10,6 +10,7 @@ export default function Home() {
   const [repeatBuy, setRepeatBuy] = useState('');
   const [competition, setCompetition] = useState('');
   const [result, setResult] = useState(null);
+  const [hasUsedFree, setHasUsedFree] = useState(false);
 
   const handlePhase1 = () => {
     if (!organicSales || !closingMethod || !budget) {
@@ -172,9 +173,14 @@ export default function Home() {
             </div>
           )}
 
+          <div style={{ ...styles.card, backgroundColor: '#1f2937', marginBottom: '20px' }}>
+            <h3 style={{ color: '#fbbf24', marginBottom: '10px' }}>You've Used Your Free Check</h3>
+            <p style={styles.p}>Want to check another ad idea? Get unlimited access:</p>
+          </div>
+
           <div style={styles.buttonContainer}>
-            <button onClick={() => setResult(null)} style={styles.buttonBack}>← Start Over</button>
-            <a href="https://paystack.com/pay/beforeyouboost" target="_blank" rel="noopener noreferrer" style={{ ...styles.buttonNext, textDecoration: 'none', textAlign: 'center' }}>Get Lifetime Access ₦3.5k →</a>
+            <a href="https://paystack.com/pay/beforeyouboost-lifetime" target="_blank" rel="noopener noreferrer" style={{ ...styles.buttonNext, textDecoration: 'none', textAlign: 'center', backgroundColor: '#10b981', flex: 1 }}>✅ Lifetime Access ₦3.5k</a>
+            <a href="https://paystack.com/pay/beforeyouboost-monthly" target="_blank" rel="noopener noreferrer" style={{ ...styles.buttonNext, textDecoration: 'none', textAlign: 'center', backgroundColor: '#3b82f6', flex: 1 }}>📅 Monthly (₦2k/month)</a>
           </div>
         </div>
       </div>
